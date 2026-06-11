@@ -173,6 +173,7 @@ The results are still limited because only a small fraction of the dataset was u
 
 ```bash
 python src/generate_saliency_maps.py --input experiments/saliency_tests/input_images --maps experiments/saliency_tests/output_maps --overlays experiments/saliency_tests/overlays
+```
 
 ## Experiment 5: Saliency vs YOLO Visual Comparison
 
@@ -183,3 +184,4 @@ python src/generate_saliency_maps.py --input experiments/saliency_tests/input_im
 
 ```bash
 python src/create_saliency_comparisons.py --originals experiments/saliency_tests/input_images --yolo results/pretrained_tests --saliency experiments/saliency_tests/overlays --output experiments/saliency_tests/comparisons
+```
