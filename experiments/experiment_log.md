@@ -9,15 +9,15 @@
 **Command Used:**
 
 ```bash
-yolo detect predict model = yolov8n.pt source = results/pretrained_tests/input_images save = True conf = 0.25
+yolo detect predict model=yolov8n.pt source=results/pretrained_tests/input_images save=True conf=0.25
 ```
 
 **Results:**
 
-| Image              | Detection Result              | Confidence                |
-| ------------------ | ----------------------------- | ------------------------- |
-| Cat image          | Cat detected                  | 0.85                      |
-| Dog image          | Dog detected                  | 0.84                      |
+| Image              | Detection Result              |                Confidence |
+| ------------------ | ----------------------------- | ------------------------: |
+| Cat image          | Cat detected                  |                      0.85 |
+| Dog image          | Dog detected                  |                      0.84 |
 | Street scene image | Cars, people and bus detected | Various confidence scores |
 
 **Observations:**
@@ -34,6 +34,8 @@ The cat image also produced an additional low-confidence detection, which may be
 * `results/pretrained_tests/dog_yolo_output.jpg`
 * `results/pretrained_tests/street_yolo_output.jpg`
 
+---
+
 ## Experiment 1: COCO8 Training Sanity Check
 
 **Model:** YOLOv8n
@@ -46,7 +48,7 @@ The cat image also produced an additional low-confidence detection, which may be
 **Command Used:**
 
 ```bash
-yolo detect train model = yolov8n.pt data = coco8.yaml epochs = 3 imgsz = 640 project = runs/baseline name = coco8_test
+yolo detect train model=yolov8n.pt data=coco8.yaml epochs=3 imgsz=640 project=runs/baseline name=coco8_test
 ```
 
 **Training Result:** Completed successfully.
@@ -70,23 +72,93 @@ The results should not be treated as meaningful object detection performance bec
 
 **Saved Outputs:**
 
-* `runs/detect/runs/baseline/coco8_test/results.csv`
-* `runs/detect/runs/baseline/coco8_test/results.png`
-* `runs/detect/runs/baseline/coco8_test/weights/best.pt`
-* `runs/detect/runs/baseline/coco8_test/weights/last.pt`
+* `runs/baseline/coco8_test/results.csv`
+* `runs/baseline/coco8_test/results.png`
+* `runs/baseline/coco8_test/weights/best.pt`
+* `runs/baseline/coco8_test/weights/last.pt`
+
+---
 
 ## Experiment 2: Pascal VOC Subset Training Test
 
-**Model:** YOLOv8n  
-**Dataset:** Pascal VOC subset  
-**Device:** CPU  
-**Epochs:** 1  
-**Image Size:** 416  
-**Batch Size:** 2  
-**Dataset Fraction:** 0.02  
+**Model:** YOLOv8n
+**Dataset:** Pascal VOC subset
+**Device:** CPU
+**Epochs:** 1
+**Image Size:** 416
+**Batch Size:** 2
+**Dataset Fraction:** 0.02
 **Purpose:** To confirm that Pascal VOC can be downloaded, converted into YOLO format, loaded successfully and used for YOLOv8 training.
 
 **Command Used:**
 
 ```bash
-yolo detect train model = yolov8n.pt data = VOC.yaml epochs = 1 imgsz = 416 batch = 2 workers = 0 fraction = 0.02 project = "$PROJECT_ROOT\runs\baseline" name = voc_subset_test
+yolo detect train model=yolov8n.pt data=VOC.yaml epochs=1 imgsz=416 batch=2 workers=0 fraction=0.02 project="$PROJECT_ROOT\runs\baseline" name=voc_subset_test
+```
+
+**Training Result:** Completed successfully.
+
+**Final Metrics:**
+
+| Metric        |           Value |
+| ------------- | --------------: |
+| Precision     |         0.02059 |
+| Recall        |         0.58150 |
+| mAP@50        |         0.05577 |
+| mAP@50-95     |         0.03953 |
+| Training Time | 658.921 seconds |
+
+**Observations:**
+
+The Pascal VOC subset training test completed successfully, confirming that Pascal VOC can be loaded and used with YOLOv8. This also confirmed that the dataset download, annotation conversion, training loop and validation process were functioning correctly.
+
+The low precision and mAP values are expected because the model was trained for only one epoch using 2% of the dataset. Therefore, this experiment should be treated as a feasibility test rather than a meaningful baseline result.
+
+The training time also indicates that full Pascal VOC training on CPU would be slow, so future experiments may need to use smaller image sizes, fewer epochs, dataset fractions or an external GPU environment.
+
+**Saved Outputs:**
+
+* `runs/baseline/voc_subset_test/results.csv`
+* `runs/baseline/voc_subset_test/results.png`
+
+---
+
+## Experiment 3: Initial Pascal VOC Baseline
+
+**Model:** YOLOv8n
+**Dataset:** Pascal VOC subset
+**Device:** CPU
+**Epochs:** 3
+**Image Size:** 416
+**Batch Size:** 2
+**Dataset Fraction:** 0.05
+**Purpose:** To train an initial YOLOv8n baseline on a small Pascal VOC subset before introducing attention or saliency mechanisms.
+
+**Command Used:**
+
+```bash
+yolo detect train model=yolov8n.pt data=VOC.yaml epochs=3 imgsz=416 batch=2 workers=0 fraction=0.05 project="$PROJECT_ROOT\runs\baseline" name=voc_baseline_3epochs
+```
+
+**Training Result:** Completed successfully.
+
+**Final Metrics:**
+
+| Metric        |           Value |
+| ------------- | --------------: |
+| Precision     |         0.32022 |
+| Recall        |         0.29772 |
+| mAP@50        |         0.24312 |
+| mAP@50-95     |         0.16181 |
+| Training Time | 2509.86 seconds |
+
+**Observations:**
+
+The YOLOv8n baseline successfully trained on a 5% subset of Pascal VOC for 3 epochs. The mAP@50 improved from 0.10853 in epoch 1 to 0.24312 in epoch 3, showing that the model was learning from the dataset.
+
+The results are still limited because only a small fraction of the dataset was used and training was performed for a small number of epochs on CPU. However, this experiment provides an initial baseline for comparison before adding saliency-based or attention-guided mechanisms.
+
+**Saved Outputs:**
+
+* `runs/baseline/voc_baseline_3epochs/results.csv`
+* `runs/baseline/voc_baseline_3epochs/results.png`
