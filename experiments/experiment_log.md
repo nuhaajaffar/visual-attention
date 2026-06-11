@@ -173,3 +173,13 @@ The results are still limited because only a small fraction of the dataset was u
 
 ```bash
 python src/generate_saliency_maps.py --input experiments/saliency_tests/input_images --maps experiments/saliency_tests/output_maps --overlays experiments/saliency_tests/overlays
+
+## Experiment 5: Saliency vs YOLO Visual Comparison
+
+**Input Images:** Cat image, dog image, street scene image  
+**Purpose:** To visually compare YOLO detection outputs with saliency overlays and assess whether salient regions overlap with detected object regions.
+
+**Command Used:**
+
+```bash
+python src/create_saliency_comparisons.py --originals experiments/saliency_tests/input_images --yolo results/pretrained_tests --saliency experiments/saliency_tests/overlays --output experiments/saliency_tests/comparisons
