@@ -46,7 +46,7 @@ The cat image also produced an additional low-confidence detection, which may be
 **Command Used:**
 
 ```bash
-yolo detect train model=yolov8n.pt data=coco8.yaml epochs=3 imgsz=640 project=runs/baseline name=coco8_test
+yolo detect train model = yolov8n.pt data = coco8.yaml epochs = 3 imgsz = 640 project = runs/baseline name = coco8_test
 ```
 
 **Training Result:** Completed successfully.
@@ -74,3 +74,19 @@ The results should not be treated as meaningful object detection performance bec
 * `runs/detect/runs/baseline/coco8_test/results.png`
 * `runs/detect/runs/baseline/coco8_test/weights/best.pt`
 * `runs/detect/runs/baseline/coco8_test/weights/last.pt`
+
+## Experiment 2: Pascal VOC Subset Training Test
+
+**Model:** YOLOv8n  
+**Dataset:** Pascal VOC subset  
+**Device:** CPU  
+**Epochs:** 1  
+**Image Size:** 416  
+**Batch Size:** 2  
+**Dataset Fraction:** 0.02  
+**Purpose:** To confirm that Pascal VOC can be downloaded, converted into YOLO format, loaded successfully and used for YOLOv8 training.
+
+**Command Used:**
+
+```bash
+yolo detect train model = yolov8n.pt data = VOC.yaml epochs = 1 imgsz = 416 batch = 2 workers = 0 fraction = 0.02 project = "$PROJECT_ROOT\runs\baseline" name = voc_subset_test
