@@ -162,3 +162,14 @@ The results are still limited because only a small fraction of the dataset was u
 
 * `runs/baseline/voc_baseline_3epochs/results.csv`
 * `runs/baseline/voc_baseline_3epochs/results.png`
+
+## Experiment 4: Saliency Map Generation Test
+
+**Method:** Static Saliency Spectral Residual  
+**Input Images:** Cat image, dog image, street scene image  
+**Purpose:** To test whether saliency maps can highlight visually important regions before integrating attention into the object detection pipeline.
+
+**Command Used:**
+
+```bash
+python src/generate_saliency_maps.py --input experiments/saliency_tests/input_images --maps experiments/saliency_tests/output_maps --overlays experiments/saliency_tests/overlays
