@@ -198,3 +198,43 @@ python src/create_saliency_comparisons.py --originals experiments/saliency_tests
 ```bash
 python src/create_saliency_masked_images.py --images experiments/saliency_tests/input_images --maps experiments/saliency_tests/output_maps --output experiments/saliency_tests/masked_images
 ```
+```bash
+yolo detect predict model=yolov8n.pt source=experiments/saliency_tests/masked_images save=True conf=0.25 project="$PROJECT_ROOT\experiments\saliency_tests" name=masked_yolo_outputs exist_ok=True
+```
+
+## Experiment 7: Original vs Saliency-Masked Detection Comparison
+
+**Model:** YOLOv8n pretrained  
+**Input Images:** Cat image, dog image, street scene image  
+**Purpose:** To quantitatively compare YOLO detections on original images and saliency-masked images.
+
+**Commands Used:**
+
+```bash
+yolo detect predict model=yolov8n.pt source=experiments/saliency_tests/input_images save=True save_txt=True save_conf=True conf=0.25 project="$PROJECT_ROOT\experiments\saliency_tests" name=original_yolo_analysis exist_ok=True
+```
+```bash
+yolo detect predict model=yolov8n.pt source=experiments/saliency_tests/masked_images save=True save_txt=True save_conf=True conf=0.25 project="$PROJECT_ROOT\experiments\saliency_tests" name=masked_yolo_analysis exist_ok=True
+```
+```bash
+python src/compare_yolo_predictions.py --images experiments/saliency_tests/input_images --original-labels experiments/saliency_tests/original_yolo_analysis/labels --masked-labels experiments/saliency_tests/masked_yolo_analysis/labels --output experiments/saliency_tests/detection_comparison.csv
+```
+
+**Results Summary:**
+
+| Image | Class | Original Count | Original Max Confidence | Masked Count | Masked Max Confidence | Confidence Change |
+|---|---|---:|---:|---:|---:|---:|
+| Cat | bed | 1 | 0.4537 | 1 | 0.2799 | -0.1738 |
+| Cat | cat | 1 | 0.8454 | 1 | 0.8370 | -0.0084 |
+| Dog | dog | 1 | 0.8440 | 1 | 0.8410 | -0.0030 |
+| Street | bus | 1 | 0.3076 | 0 | N/A | N/A |
+| Street | car | 9 | 0.8550 | 11 | 0.8596 | +0.0046 |
+| Street | person | 4 | 0.3892 | 0 | N/A | N/A |
+
+**Observations:**
+
+The quantitative comparison shows that saliency masking preserved the main cat and dog detections with only very small confidence decreases. For the cat image, the false positive “bed” detection decreased from 0.4537 to 0.2799, suggesting that background suppression may reduce some incorrect detections.
+
+In the street scene, the strongest car confidence slightly increased from 0.8550 to 0.8596, and the number of car detections increased from 9 to 11. However, the bus and person detections were removed after masking. This shows that saliency masking can help emphasise prominent objects, but it may also suppress smaller or less visually salient objects in cluttered scenes.
+
+Overall, the results suggest that saliency-guided preprocessing has potential, but it must be applied carefully because aggressive background suppression may reduce recall for smaller objects.
