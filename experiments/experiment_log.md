@@ -172,7 +172,7 @@ The results are still limited because only a small fraction of the dataset was u
 **Command Used:**
 
 ```bash
-python src/generate_saliency_maps.py --input experiments/saliency_tests/input_images --maps experiments/saliency_tests/output_maps --overlays experiments/saliency_tests/overlays
+python src/saliency_maps.py --input experiments/saliency_tests/input_images --maps experiments/saliency_tests/output_maps --overlays experiments/saliency_tests/overlays
 ```
 
 ## Experiment 5: Saliency vs YOLO Visual Comparison
@@ -183,7 +183,7 @@ python src/generate_saliency_maps.py --input experiments/saliency_tests/input_im
 **Command Used:**
 
 ```bash
-python src/create_saliency_comparisons.py --originals experiments/saliency_tests/input_images --yolo results/pretrained_tests --saliency experiments/saliency_tests/overlays --output experiments/saliency_tests/comparisons
+python src/saliency_comp.py --originals experiments/saliency_tests/input_images --yolo results/pretrained_tests --saliency experiments/saliency_tests/overlays --output experiments/saliency_tests/comparisons
 ```
 
 ## Experiment 6: Saliency-Masked Image Detection Test
@@ -196,7 +196,7 @@ python src/create_saliency_comparisons.py --originals experiments/saliency_tests
 **Commands Used:**
 
 ```bash
-python src/create_saliency_masked_images.py --images experiments/saliency_tests/input_images --maps experiments/saliency_tests/output_maps --output experiments/saliency_tests/masked_images
+python src/saliency_masked.py --images experiments/saliency_tests/input_images --maps experiments/saliency_tests/output_maps --output experiments/saliency_tests/masked_images
 ```
 ```bash
 yolo detect predict model=yolov8n.pt source=experiments/saliency_tests/masked_images save=True conf=0.25 project="$PROJECT_ROOT\experiments\saliency_tests" name=masked_yolo_outputs exist_ok=True
@@ -217,7 +217,7 @@ yolo detect predict model=yolov8n.pt source=experiments/saliency_tests/input_ima
 yolo detect predict model=yolov8n.pt source=experiments/saliency_tests/masked_images save=True save_txt=True save_conf=True conf=0.25 project="$PROJECT_ROOT\experiments\saliency_tests" name=masked_yolo_analysis exist_ok=True
 ```
 ```bash
-python src/compare_yolo_predictions.py --images experiments/saliency_tests/input_images --original-labels experiments/saliency_tests/original_yolo_analysis/labels --masked-labels experiments/saliency_tests/masked_yolo_analysis/labels --output experiments/saliency_tests/detection_comparison.csv
+python src/yolo_predictions.py --images experiments/saliency_tests/input_images --original-labels experiments/saliency_tests/original_yolo_analysis/labels --masked-labels experiments/saliency_tests/masked_yolo_analysis/labels --output experiments/saliency_tests/detection_comparison.csv
 ```
 
 **Results Summary:**

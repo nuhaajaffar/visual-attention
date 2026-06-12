@@ -3,7 +3,12 @@ import cv2
 import numpy as np
 from pathlib import Path
 
-def create_masked_image(image_path: Path, saliency_map_path: Path, output_path: Path) -> None:
+def create_masked_image(
+    image_path: Path,
+    saliency_map_path: Path,
+    output_path: Path,
+    background_strength: float,
+) -> None:
     image = cv2.imread(str(image_path))
     saliency_map = cv2.imread(str(saliency_map_path), cv2.IMREAD_GRAYSCALE)
 
@@ -19,7 +24,7 @@ def create_masked_image(image_path: Path, saliency_map_path: Path, output_path: 
     saliency_map = saliency_map.astype(np.float32) / 255.0
     saliency_map = cv2.GaussianBlur(saliency_map, (21, 21), 0)
 
-    mask = 0.3 + 0.7 * saliency_map
+    mask = background_strength + (1.0 - background_strength) * saliency_map
     mask = np.expand_dims(mask, axis = 2)
 
     masked_image = image.astype(np.float32) * mask
@@ -35,7 +40,11 @@ def main() -> None:
     parser.add_argument("--images", required = True)
     parser.add_argument("--maps", required = True)
     parser.add_argument("--output", required = True)
+    parser.add_argument("--background", type = float, default = 0.3)
     args = parser.parse_args()
+
+    if not 0.0 <= args.background <= 1.0:
+        raise ValueError("Background strength must be between 0.0 and 1.0")
 
     images_dir = Path(args.images)
     maps_dir = Path(args.maps)
@@ -50,7 +59,12 @@ def main() -> None:
         saliency_map_path = maps_dir / f"{image_path.stem}_saliency_map.jpg"
         output_path = output_dir / f"{image_path.stem}_masked.jpg"
 
-        create_masked_image(image_path, saliency_map_path, output_path)
+        create_masked_image(
+            image_path,
+            saliency_map_path,
+            output_path,
+            args.background,
+        )
 
 if __name__ == "__main__":
     main()
