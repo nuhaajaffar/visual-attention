@@ -238,3 +238,35 @@ The quantitative comparison shows that saliency masking preserved the main cat a
 In the street scene, the strongest car confidence slightly increased from 0.8550 to 0.8596, and the number of car detections increased from 9 to 11. However, the bus and person detections were removed after masking. This shows that saliency masking can help emphasise prominent objects, but it may also suppress smaller or less visually salient objects in cluttered scenes.
 
 Overall, the results suggest that saliency-guided preprocessing has potential, but it must be applied carefully because aggressive background suppression may reduce recall for smaller objects.
+
+## Experiment 8: Saliency Masking Strength Comparison
+
+**Model:** YOLOv8n pretrained  
+**Input Images:** Cat image, dog image, street scene image  
+**Masking Strengths Tested:**
+
+| Mask Type | Background Visibility |
+|---|---:|
+| Weak | 0.7 |
+| Medium | 0.5 |
+| Strong | 0.3 |
+
+**Purpose:** To evaluate whether different saliency masking strengths affect YOLO detections differently.
+
+**Results Summary:**
+
+| Mask Type | Key Result |
+|---|---|
+| Weak | Preserved all main detections while slightly reducing the cat image false positive |
+| Medium | Preserved cat and dog detections, but increased the bed false positive and reduced person detections |
+| Strong | Reduced the bed false positive the most, but removed bus and person detections in the street scene |
+
+**Observations:**
+
+The weak saliency mask provided the best overall trade-off. It preserved the main cat and dog detections with very small confidence changes, reduced the false-positive “bed” confidence from 0.4537 to 0.3992, and preserved the bus, car and person detections in the street scene.
+
+The medium mask produced mixed results. It preserved the main cat and dog detections, but the false-positive “bed” confidence increased from 0.4537 to 0.4898. It also reduced the number of detected people in the street scene from four to one.
+
+The strong mask reduced the false-positive “bed” confidence most effectively, from 0.4537 to 0.2799. However, it also removed the bus and person detections from the street scene. This suggests that aggressive background suppression may reduce false positives but can also remove useful object information in cluttered environments.
+
+Overall, weak masking appears to be the most suitable setting for future experiments because it preserves detection recall better while still reducing some background influence.
