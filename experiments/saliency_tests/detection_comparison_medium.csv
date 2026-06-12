@@ -1,0 +1,7 @@
+image,class,original_count,original_max_confidence,masked_count,masked_max_confidence,confidence_change
+cat,bed,1,0.4537,1,0.4898,0.0361
+cat,cat,1,0.8454,1,0.8306,-0.0148
+dog,dog,1,0.8440,1,0.8321,-0.0119
+street,bus,1,0.3076,1,0.2964,-0.0113
+street,car,9,0.8550,11,0.8606,0.0056
+street,person,4,0.3892,1,0.3099,-0.0793
