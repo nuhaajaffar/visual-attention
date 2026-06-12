@@ -185,3 +185,16 @@ python src/generate_saliency_maps.py --input experiments/saliency_tests/input_im
 ```bash
 python src/create_saliency_comparisons.py --originals experiments/saliency_tests/input_images --yolo results/pretrained_tests --saliency experiments/saliency_tests/overlays --output experiments/saliency_tests/comparisons
 ```
+
+## Experiment 6: Saliency-Masked Image Detection Test
+
+**Method:** Saliency-guided background suppression  
+**Model:** YOLOv8n pretrained  
+**Input Images:** Cat image, dog image, street scene image  
+**Purpose:** To test whether suppressing less-salient image regions affects YOLO detections.
+
+**Commands Used:**
+
+```bash
+python src/create_saliency_masked_images.py --images experiments/saliency_tests/input_images --maps experiments/saliency_tests/output_maps --output experiments/saliency_tests/masked_images
+```
