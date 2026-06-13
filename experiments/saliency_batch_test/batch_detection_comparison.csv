@@ -1,0 +1,59 @@
+image,class,original_count,original_max_confidence,masked_count,masked_max_confidence,confidence_change
+banana,banana,4,0.6735,3,0.6870,0.0136
+bathroom,bowl,1,0.4171,1,0.4370,0.0199
+bathroom,potted plant,4,0.7571,4,0.7639,0.0068
+bathroom,sink,2,0.3532,1,0.2803,-0.0729
+bottle,vase,1,0.7560,1,0.8098,0.0538
+cafe,chair,7,0.8739,6,0.8801,0.0061
+cafe,dining table,3,0.7407,3,0.7431,0.0023
+cafe,handbag,1,0.4654,1,0.4460,-0.0194
+cafe,person,6,0.7974,6,0.8137,0.0164
+car,car,1,0.9029,1,0.9016,-0.0013
+cat,bed,1,0.4537,1,0.3992,-0.0545
+cat,cat,1,0.8454,1,0.8365,-0.0090
+chair,chair,1,0.6613,1,0.3123,-0.3491
+city,bus,2,0.7375,2,0.7438,0.0063
+city,car,4,0.8141,5,0.8142,0.0001
+city,person,10,0.9062,10,0.9078,0.0016
+city,traffic light,4,0.8439,5,0.8491,0.0051
+classroom,chair,11,0.9134,14,0.9107,-0.0027
+classroom,dining table,3,0.4269,5,0.4478,0.0210
+clock,clock,2,0.5347,2,0.6229,0.0883
+dog,dog,1,0.8440,1,0.8423,-0.0017
+fruits,apple,8,0.7194,9,0.7295,0.0101
+fruits,banana,5,0.7486,6,0.7580,0.0094
+fruits,orange,6,0.7370,6,0.6913,-0.0457
+house,car,2,0.9192,2,0.9181,-0.0011
+livingroom,chair,2,0.2875,2,0.3126,0.0251
+livingroom,couch,1,0.4456,1,0.4465,0.0009
+livingroom,potted plant,1,0.4749,1,0.4788,0.0039
+livingroom,tv,1,0.4050,1,0.3105,-0.0945
+livingroom,vase,1,0.6398,1,0.6514,0.0116
+market,apple,1,0.3609,1,0.3477,-0.0132
+market,bowl,0,,1,0.2697,
+market,clock,1,0.3488,1,0.3495,0.0006
+market,cup,1,0.2503,1,0.2599,0.0096
+market,handbag,1,0.4350,1,0.4802,0.0452
+market,orange,1,0.4796,1,0.4687,-0.0109
+market,person,13,0.9170,13,0.9161,-0.0009
+office,book,8,0.4154,6,0.4240,0.0086
+office,chair,2,0.6639,2,0.5098,-0.1541
+office,cup,2,0.6311,1,0.5980,-0.0331
+office,dining table,1,0.2859,1,0.2804,-0.0054
+office,keyboard,1,0.3031,0,,
+office,potted plant,2,0.8496,1,0.8439,-0.0057
+office,vase,0,,1,0.2541,
+people,person,8,0.9373,8,0.9387,0.0014
+people,tie,1,0.3058,1,0.2928,-0.0130
+plants,potted plant,10,0.7617,9,0.7351,-0.0266
+plants,vase,3,0.4970,3,0.4451,-0.0519
+station,person,24,0.8030,22,0.8026,-0.0004
+station,train,1,0.8877,1,0.8863,-0.0014
+street,bus,1,0.3076,1,0.3335,0.0259
+street,car,9,0.8550,11,0.8529,-0.0022
+street,person,4,0.3892,4,0.3226,-0.0666
+traffic,bus,2,0.3985,3,0.4527,0.0542
+traffic,car,31,0.7506,31,0.7267,-0.0240
+traffic,truck,1,0.2756,0,,
+vehicles,car,55,0.9347,57,0.9340,-0.0008
+vehicles,truck,2,0.3861,1,0.3223,-0.0638
