@@ -171,7 +171,8 @@ visual-attention/
 │   ├── voc_saliency_metrics.py
 │   ├── voc_train_val_subset.py
 │   ├── voc_masked_train_val_dataset.py
-│   └── e12_training_comp.py
+│   ├── e12_training_comp.py
+│   └── final_results.py
 │
 ├── experiments/
 │   ├── experiment_log.md
