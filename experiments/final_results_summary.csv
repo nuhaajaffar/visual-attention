@@ -1,0 +1,7 @@
+experiment,method,precision,recall,map50,map50_95,key_finding
+Experiment 10,Original validation,0.4809,0.2548,0.2878,0.2059,Baseline validation result on original VOC images
+Experiment 10,Weak masked validation,0.7291,0.1926,0.2844,0.2017,Weak masking improved precision but reduced recall
+Experiment 11,Medium masked validation,0.7520,0.1790,0.2920,0.2030,Medium masking achieved the highest precision and mAP50
+Experiment 11,Strong masked validation,0.6490,0.2040,0.2780,0.1940,Strong masking did not outperform medium masking
+Experiment 12,Original-trained model,0.9903,0.0383,0.0894,0.0656,Training on original images performed better overall
+Experiment 12,Medium-masked-trained model,0.9898,0.0392,0.0825,0.0585,Training directly on masked images did not improve mAP
