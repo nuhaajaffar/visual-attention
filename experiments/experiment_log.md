@@ -405,3 +405,38 @@ However, recall decreased for all masked versions. The original images achieved 
 The medium mask achieved the highest mAP@50 at 0.2920, slightly higher than the original image result of 0.2878. However, the original images still achieved the highest mAP@50-95 at 0.2059. This suggests that medium masking may slightly improve detection at a lower IoU threshold, but it does not clearly improve stricter localisation performance.
 
 Overall, saliency masking changed the detector’s behaviour by improving precision but reducing recall. Medium masking produced the best precision and mAP@50, while the original images preserved the best recall and mAP@50-95. Therefore, saliency-guided preprocessing shows potential as a biologically inspired attention mechanism, but it should be treated as a precision-focused trade-off rather than a complete improvement over the baseline.
+
+## Experiment 12: Medium-Masked YOLO Training Comparison
+
+**Model:** YOLOv8n  
+**Dataset:** Pascal VOC train/val subset  
+**Training Subset:** 300 images  
+**Validation Subset:** 100 images  
+**Epochs:** 3  
+**Image Size:** 416  
+**Batch Size:** 2  
+**Purpose:** To compare a YOLOv8n model trained on original images with a YOLOv8n model trained directly on medium saliency-masked images.
+
+**Comparison Setup:**
+
+| Model | Train Data | Validation Data |
+|---|---|---|
+| Original YOLOv8n model | Original VOC subset | Original VOC subset |
+| Medium-masked YOLOv8n model | Medium-masked VOC subset | Medium-masked VOC subset |
+
+**Metrics:**
+
+| Model | Precision | Recall | mAP@50 | mAP@50-95 |
+|---|---:|---:|---:|---:|
+| Original-trained model | 0.9903 | 0.0383 | 0.0894 | 0.0656 |
+| Medium-masked-trained model | 0.9898 | 0.0392 | 0.0825 | 0.0585 |
+
+**Observations:**
+
+This experiment provides a fairer comparison than evaluating an original-trained model directly on masked images, because each model was trained and validated on the same image style.
+
+Both models achieved very high precision but very low recall. This suggests that the models were conservative: they made relatively few detections, but the detections they made were usually correct.
+
+The medium-masked-trained model achieved a slightly higher recall than the original-trained model, increasing from 0.0383 to 0.0392. However, its mAP@50 decreased from 0.0894 to 0.0825, and its mAP@50-95 decreased from 0.0656 to 0.0585.
+
+Overall, training directly on medium saliency-masked images did not improve the baseline. The result suggests that saliency masking may influence detector behaviour, but it does not provide a clear performance improvement under this training setup.

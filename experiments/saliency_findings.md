@@ -41,6 +41,10 @@ Medium masking achieved the highest precision and mAP@50, with precision increas
 
 The next experiment should therefore test whether training the model directly on saliency-masked images improves the result, rather than only evaluating an original-trained model on masked images.
 
-## Next Research Direction
+## Medium-Masked Training Finding
 
-The next stage should evaluate weak saliency masking using a labelled dataset such as Pascal VOC, where proper metrics such as precision, recall and mAP can be measured.
+Experiment 12 tested whether training YOLOv8n directly on medium saliency-masked images would improve performance compared with training on original images. The original-trained model achieved a mAP@50 of 0.0894, while the medium-masked-trained model achieved a lower mAP@50 of 0.0825.
+
+The masked-trained model achieved a very small recall improvement, increasing from 0.0383 to 0.0392, but this was not enough to offset the decrease in mAP. Therefore, training directly on medium-masked images did not improve the baseline in this experiment.
+
+This suggests that saliency masking is useful for analysing attention and detector behaviour, but it should not yet be claimed as a definite improvement over the original YOLO pipeline.
