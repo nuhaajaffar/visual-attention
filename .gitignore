@@ -3,8 +3,13 @@ __pycache__/
 *.pyc
 
 datasets/
-*.zip
+
+experiments/voc_saliency_eval/original/
+experiments/voc_saliency_eval/masked/
+experiments/voc_saliency_eval/saliency_maps/
+experiments/voc_saliency_eval/saliency_overlays/
 
 runs/**/weights/*.pt
+*.zip
 
 .DS_Store
