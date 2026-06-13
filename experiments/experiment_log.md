@@ -335,3 +335,36 @@ Several detections improved after weak masking. For example, the clock confidenc
 However, some detections became weaker after masking. For example, the chair confidence decreased from 0.6613 to 0.3123, the office chair confidence decreased from 0.6639 to 0.5098, and the living room TV confidence decreased from 0.4050 to 0.3105. This shows that saliency masking may weaken objects that are not strongly highlighted by the saliency map.
 
 Overall, weak saliency masking appears safer than medium or strong masking because it preserves most detections while only slightly changing confidence scores. However, the results are mixed, so weak saliency masking should be treated as a promising preprocessing experiment rather than a confirmed improvement over YOLO.
+
+## Experiment 10: Pascal VOC Weak Saliency Evaluation
+
+**Model:** YOLOv8n trained on Pascal VOC subset  
+**Dataset:** Pascal VOC val2012 subset  
+**Subset Size:** 100 images  
+**Masking Method:** Weak saliency-guided background suppression  
+**Background Visibility:** 0.7  
+**Purpose:** To evaluate whether weak saliency masking affects object detection performance using ground-truth labels.
+
+**Evaluation Setup:**
+
+| Evaluation | Input |
+|---|---|
+| Original VOC subset | Unmodified Pascal VOC images |
+| Masked VOC subset | Weak saliency-masked versions of the same images |
+
+**Metrics:**
+
+| Input Type | Precision | Recall | mAP@50 | mAP@50-95 |
+|---|---:|---:|---:|---:|
+| Original images | 0.4809 | 0.2548 | 0.2878 | 0.2059 |
+| Weak masked images | 0.7291 | 0.1926 | 0.2844 | 0.2017 |
+
+**Observations:**
+
+The weak saliency-masked images produced higher precision than the original images, increasing from 0.4809 to 0.7291. This suggests that saliency-guided background suppression may reduce incorrect detections by making the model more selective.
+
+However, recall decreased from 0.2548 to 0.1926, meaning that the model missed more objects after masking. This indicates that some useful object information may have been suppressed, especially for less visually salient objects.
+
+The mAP values remained very similar. mAP@50 decreased slightly from 0.2878 to 0.2844, while mAP@50-95 decreased from 0.2059 to 0.2017. This suggests that weak saliency masking did not substantially improve overall detection performance, but it changed the precision-recall trade-off.
+
+Overall, weak saliency masking appears to make YOLOv8n more conservative: it improves precision but reduces recall. This supports the idea that saliency-based attention can reduce background influence, but it must be carefully balanced to avoid suppressing valid object regions.
