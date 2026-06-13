@@ -33,6 +33,14 @@ When weak saliency masking was evaluated on a 100-image Pascal VOC subset, preci
 
 This suggests that weak saliency masking makes the detector more selective. It may reduce false positives, but it can also cause the model to miss objects. Therefore, saliency masking shows potential as a biologically inspired preprocessing method, but it does not yet provide a clear overall improvement over the baseline.
 
+## Masking Strength Evaluation Finding
+
+Experiment 11 compared original, weak, medium and strong saliency masking on the same 100-image Pascal VOC validation subset. All saliency-masked versions improved precision compared with the original images, but they also reduced recall.
+
+Medium masking achieved the highest precision and mAP@50, with precision increasing from 0.4809 to 0.7520 and mAP@50 increasing slightly from 0.2878 to 0.2920. However, recall decreased from 0.2548 to 0.1790. This suggests that saliency masking makes the detector more selective, but may cause it to miss less salient objects.
+
+The next experiment should therefore test whether training the model directly on saliency-masked images improves the result, rather than only evaluating an original-trained model on masked images.
+
 ## Next Research Direction
 
 The next stage should evaluate weak saliency masking using a labelled dataset such as Pascal VOC, where proper metrics such as precision, recall and mAP can be measured.
