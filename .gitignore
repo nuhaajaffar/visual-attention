@@ -9,6 +9,7 @@ experiments/voc_saliency_eval/masked/
 experiments/voc_saliency_eval/saliency_maps/
 experiments/voc_saliency_eval/saliency_overlays/
 
+experiments/**/weights/*.pt
 runs/**/weights/*.pt
 *.zip
 
