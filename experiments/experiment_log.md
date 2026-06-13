@@ -270,3 +270,68 @@ The medium mask produced mixed results. It preserved the main cat and dog detect
 The strong mask reduced the false-positive “bed” confidence most effectively, from 0.4537 to 0.2799. However, it also removed the bus and person detections from the street scene. This suggests that aggressive background suppression may reduce false positives but can also remove useful object information in cluttered environments.
 
 Overall, weak masking appears to be the most suitable setting for future experiments because it preserves detection recall better while still reducing some background influence.
+
+## Experiment 9: Small Batch Test with Weak Saliency Masking
+
+**Model:** YOLOv8n pretrained
+**Input Images:** 22 sample images containing both simple object-centred scenes and more cluttered environments
+**Masking Strength Used:**
+
+| Mask Type | Background Visibility |
+| --------- | --------------------: |
+| Weak      |                   0.7 |
+
+**Purpose:** To evaluate whether weak saliency masking remains effective across a larger batch of images after it was identified as the best masking strength in Experiment 8.
+
+**Commands Used:**
+
+```bash
+python src/saliency_maps.py --input experiments/saliency_batch_test/input_images --maps experiments/saliency_batch_test/output_maps --overlays experiments/saliency_batch_test/overlays
+```
+```bash
+python src/saliency_masked.py --images experiments/saliency_batch_test/input_images --maps experiments/saliency_batch_test/output_maps --output experiments/saliency_batch_test/masked_images_weak --background 0.7
+```
+```bash
+yolo detect predict model=yolov8n.pt source=experiments/saliency_batch_test/input_images save=True save_txt=True save_conf=True conf=0.25 project="$PROJECT_ROOT\experiments\saliency_batch_test" name=original_yolo_outputs exist_ok=True
+```
+```bash
+yolo detect predict model=yolov8n.pt source=experiments/saliency_batch_test/masked_images_weak save=True save_txt=True save_conf=True conf=0.25 project="$PROJECT_ROOT\experiments\saliency_batch_test" name=weak_masked_yolo_outputs exist_ok=True
+```
+```bash
+python src/yolo_predictions.py --images experiments/saliency_batch_test/input_images --original-labels experiments/saliency_batch_test/original_yolo_outputs/labels --masked-labels experiments/saliency_batch_test/weak_masked_yolo_outputs/labels --output experiments/saliency_batch_test/batch_detection_comparison.csv
+```
+
+**Results Summary:**
+
+| Measure                         |  Result |
+| ------------------------------- | ------: |
+| Images tested                   |      22 |
+| Class-level comparison rows     |      58 |
+| Total original detections       |     283 |
+| Total weak-masked detections    |     286 |
+| Net detection count change      |      +3 |
+| Classes preserved after masking |      54 |
+| Classes lost after masking      |       2 |
+| New classes after masking       |       2 |
+| Average confidence change       | -0.0126 |
+| Median confidence change        | -0.0006 |
+
+**Key Findings:**
+
+| Finding                                          | Example                                                    |
+| ------------------------------------------------ | ---------------------------------------------------------- |
+| Most detections were preserved                   | Cat, dog, car, person and train detections remained stable |
+| Some confidence scores improved                  | Clock confidence increased from 0.5347 to 0.6229           |
+| Some false/background-related detections reduced | Cat image “bed” confidence reduced from 0.4537 to 0.3992   |
+| Some detections weakened                         | Chair confidence decreased from 0.6613 to 0.3123           |
+| Some objects were lost after masking             | Office keyboard and traffic truck detections disappeared   |
+
+**Observations:**
+
+The small batch test showed that weak saliency masking generally preserved YOLO detections across a wider set of images. Across 22 images and 58 class-level comparisons, the total number of detections remained similar, increasing slightly from 283 to 286. The median confidence change was -0.0006, which suggests that weak masking did not substantially harm detection confidence overall.
+
+Several detections improved after weak masking. For example, the clock confidence increased from 0.5347 to 0.6229, the traffic bus confidence increased from 0.3985 to 0.4527, and the bottle image vase confidence increased from 0.7560 to 0.8098. This suggests that saliency-guided preprocessing can sometimes make visually distinctive objects more prominent.
+
+However, some detections became weaker after masking. For example, the chair confidence decreased from 0.6613 to 0.3123, the office chair confidence decreased from 0.6639 to 0.5098, and the living room TV confidence decreased from 0.4050 to 0.3105. This shows that saliency masking may weaken objects that are not strongly highlighted by the saliency map.
+
+Overall, weak saliency masking appears safer than medium or strong masking because it preserves most detections while only slightly changing confidence scores. However, the results are mixed, so weak saliency masking should be treated as a promising preprocessing experiment rather than a confirmed improvement over YOLO.
