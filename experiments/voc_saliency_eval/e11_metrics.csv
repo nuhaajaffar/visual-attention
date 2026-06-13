@@ -1,0 +1,5 @@
+input_type,background_visibility,precision,recall,map50,map50_95
+original,1.0,0.4809,0.2548,0.2878,0.2059
+weak_mask,0.7,0.7291,0.1926,0.2844,0.2017
+medium_mask,0.5,0.7520,0.1790,0.2920,0.2030
+strong_mask,0.3,0.6490,0.2040,0.2780,0.1940
