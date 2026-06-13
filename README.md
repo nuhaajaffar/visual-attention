@@ -166,12 +166,12 @@ visual-attention/
 │   ├── saliency_comp.py
 │   ├── saliency_masked.py
 │   ├── yolo_predictions.py
-│   ├── voc_saliency_eval.py
-│   ├── voc_masked_eval_dataset.py
-│   ├── voc_saliency_metrics.py
-│   ├── voc_train_val_subset.py
-│   ├── voc_masked_train_val_dataset.py
-│   ├── e12_training_comp.py
+│   ├── saliency_eval.py
+│   ├── masked_eval.py
+│   ├── eval_metrics.py
+│   ├── voc_subset.py
+│   ├── masked_dataset.py
+│   ├── training_comp.py
 │   └── final_results.py
 │
 ├── experiments/
@@ -184,8 +184,8 @@ visual-attention/
 │   │
 │   ├── saliency_tests/
 │   ├── saliency_batch_test/
-│   ├── voc_saliency_eval/
-│   └── e12_medium_mask_training/
+│   ├── voc_saliency/
+│   └── voc_training/
 │
 ├── runs/
 │   └── baseline/
@@ -326,7 +326,7 @@ This compares original and masked YOLO detections using saved YOLO label files.
 ### Prepare Pascal VOC Saliency Evaluation Subset
 
 ```bash
-python src/voc_saliency_eval.py --voc-root C:\Users\Nuhaa\Projects\datasets\VOC --output experiments\voc_saliency_eval --split val2012 --limit 100
+python src/saliency_eval.py --voc-root C:\Users\Nuhaa\Projects\datasets\VOC --output experiments\voc_saliency_eval --split val2012 --limit 100
 ```
 
 This prepares a 100-image Pascal VOC validation subset for saliency evaluation.
@@ -334,7 +334,7 @@ This prepares a 100-image Pascal VOC validation subset for saliency evaluation.
 ### Evaluate Original and Masked VOC Images
 
 ```bash
-python src/voc_saliency_metrics.py --model runs/baseline/voc_baseline_3epochs/weights/best.pt --original-data experiments/voc_saliency_eval/original.yaml --masked-data experiments/voc_saliency_eval/masked.yaml --project experiments/voc_saliency_eval --output experiments/voc_saliency_eval/e10_metrics.csv --imgsz 416 --batch 2
+python src/eval_metrics.py --model runs/baseline/voc_baseline_3epochs/weights/best.pt --original-data experiments/voc_saliency_eval/original.yaml --masked-data experiments/voc_saliency_eval/masked.yaml --project experiments/voc_saliency_eval --output experiments/voc_saliency_eval/e10_metrics.csv --imgsz 416 --batch 2
 ```
 
 This evaluates original and masked VOC images using precision, recall, mAP@50 and mAP@50-95.
@@ -342,7 +342,7 @@ This evaluates original and masked VOC images using precision, recall, mAP@50 an
 ### Run Medium-Masked Training Comparison
 
 ```bash
-python src/e12_training_comp.py --original-model experiments/e12_medium_mask_training/original_train_3epochs/weights/best.pt --original-data experiments/e12_medium_mask_training/original.yaml --masked-model experiments/e12_medium_mask_training/medium_masked_train_3epochs/weights/best.pt --masked-data experiments/e12_medium_mask_training/medium_masked.yaml --project experiments/e12_medium_mask_training --output experiments/e12_medium_mask_training/e12_metrics.csv --imgsz 416 --batch 2
+python src/training_comp.py --original-model experiments/e12_medium_mask_training/original_train_3epochs/weights/best.pt --original-data experiments/e12_medium_mask_training/original.yaml --masked-model experiments/e12_medium_mask_training/medium_masked_train_3epochs/weights/best.pt --masked-data experiments/e12_medium_mask_training/medium_masked.yaml --project experiments/e12_medium_mask_training --output experiments/e12_medium_mask_training/e12_metrics.csv --imgsz 416 --batch 2
 ```
 
 This evaluates the original-trained and medium-masked-trained models and saves the final comparison metrics.
@@ -360,9 +360,9 @@ experiments/saliency_findings.md
 experiments/progress_summary.md
 experiments/final_direction.md
 experiments/final_results_summary.csv
-experiments/voc_saliency_eval/e10_metrics.csv
-experiments/voc_saliency_eval/e11_metrics.csv
-experiments/e12_medium_mask_training/e12_metrics.csv
+experiments/voc_saliency/e10_metrics.csv
+experiments/voc_saliency/e11_metrics.csv
+experiments/voc_training/e12_metrics.csv
 ```
 
 Generated images, dataset copies, saliency maps and model weights are excluded from version control where possible.
