@@ -51,6 +51,7 @@ def main() -> None:
     parser.add_argument("--maps", required = True)
     parser.add_argument("--output-root", required = True)
     parser.add_argument("--background", type = float, default = 0.7)
+    parser.add_argument("--yaml-name", default="masked.yaml")
     args = parser.parse_args()
 
     original_root = Path(args.original_root)
@@ -80,10 +81,10 @@ def main() -> None:
 
         processed += 1
 
-    write_yaml(output_root.parent / "masked.yaml", output_root)
+    write_yaml(output_root.parent / args.yaml_name, output_root)
 
     print(f"Created {processed} masked images")
-    print(f"Created YAML: {output_root.parent / 'masked.yaml'}")
+    print(f"Created YAML: {output_root.parent / args.yaml_name}")
 
 if __name__ == "__main__":
     main()
