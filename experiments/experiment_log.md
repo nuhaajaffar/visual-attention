@@ -368,3 +368,40 @@ However, recall decreased from 0.2548 to 0.1926, meaning that the model missed m
 The mAP values remained very similar. mAP@50 decreased slightly from 0.2878 to 0.2844, while mAP@50-95 decreased from 0.2059 to 0.2017. This suggests that weak saliency masking did not substantially improve overall detection performance, but it changed the precision-recall trade-off.
 
 Overall, weak saliency masking appears to make YOLOv8n more conservative: it improves precision but reduces recall. This supports the idea that saliency-based attention can reduce background influence, but it must be carefully balanced to avoid suppressing valid object regions.
+
+## Experiment 11: Pascal VOC Saliency Masking Strength Evaluation
+
+**Model:** YOLOv8n trained on Pascal VOC subset
+**Dataset:** Pascal VOC val2012 subset
+**Subset Size:** 100 images
+**Masking Strengths Tested:**
+
+| Mask Type | Background Visibility |
+| --------- | --------------------: |
+| Original  |                   1.0 |
+| Weak      |                   0.7 |
+| Medium    |                   0.5 |
+| Strong    |                   0.3 |
+
+**Purpose:** To compare different saliency masking strengths using standard object detection metrics on a labelled Pascal VOC subset.
+
+**Metrics:**
+
+| Input Type           | Precision | Recall | mAP@50 | mAP@50-95 |
+| -------------------- | --------: | -----: | -----: | --------: |
+| Original images      |    0.4809 | 0.2548 | 0.2878 |    0.2059 |
+| Weak masked images   |    0.7291 | 0.1926 | 0.2844 |    0.2017 |
+| Medium masked images |    0.7520 | 0.1790 | 0.2920 |    0.2030 |
+| Strong masked images |    0.6490 | 0.2040 | 0.2780 |    0.1940 |
+
+**Observations:**
+
+This experiment extends Experiment 10 by comparing weak, medium and strong saliency masking on the same Pascal VOC evaluation subset. The purpose was to determine whether stronger background suppression improves detection performance or whether it reduces recall by hiding useful object information.
+
+Compared with the original images, all saliency-masked versions increased precision. The original images achieved a precision of 0.4809, while weak, medium and strong masking achieved 0.7291, 0.7520 and 0.6490 respectively. This suggests that saliency-guided masking can make the model more selective and may reduce incorrect detections.
+
+However, recall decreased for all masked versions. The original images achieved the highest recall at 0.2548, while weak, medium and strong masking achieved 0.1926, 0.1790 and 0.2040 respectively. This shows that background suppression can also remove useful visual information, causing the detector to miss some objects.
+
+The medium mask achieved the highest mAP@50 at 0.2920, slightly higher than the original image result of 0.2878. However, the original images still achieved the highest mAP@50-95 at 0.2059. This suggests that medium masking may slightly improve detection at a lower IoU threshold, but it does not clearly improve stricter localisation performance.
+
+Overall, saliency masking changed the detector’s behaviour by improving precision but reducing recall. Medium masking produced the best precision and mAP@50, while the original images preserved the best recall and mAP@50-95. Therefore, saliency-guided preprocessing shows potential as a biologically inspired attention mechanism, but it should be treated as a precision-focused trade-off rather than a complete improvement over the baseline.
